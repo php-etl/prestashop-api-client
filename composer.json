@@ -1,0 +1,33 @@
+{
+    "name": "php-etl/prestashop-flow",
+    "description": "Prestashop API calls for ETL Pipeline",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "php-etl/pipeline-contracts": "^0.3.0",
+        "php-etl/bucket": "^0.2",
+        "symfony/http-foundation": "^6.2"
+    },
+    "authors": [
+        {
+            "name": "Grégory Planchat",
+            "email": "gregory@kiboko.fr"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Kiboko\\Component\\Flow\\Prestashop\\": "src/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.1.x-dev"
+        }
+    }
+}
