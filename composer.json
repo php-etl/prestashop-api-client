@@ -1,13 +1,12 @@
 {
-    "name": "php-etl/prestashop-flow",
-    "description": "Prestashop API calls for ETL Pipeline",
+    "name": "php-etl/prestashop-api-client",
+    "description": "Prestashop API client for ETL Pipeline",
     "type": "library",
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "php-etl/pipeline-contracts": "^0.3.0",
-        "php-etl/bucket": "^0.2",
-        "symfony/http-foundation": "^6.2"
+        "symfony/serializer": "^6.2",
+        "prestashop/prestashop-webservice-lib": "dev-master"
     },
     "authors": [
         {
@@ -19,7 +18,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Kiboko\\Component\\Flow\\Prestashop\\": "src/"
+            "Kiboko\\Component\\Prestashop\\ApiClient\\": "src/"
         }
     },
     "config": {
