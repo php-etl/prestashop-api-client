@@ -113,15 +113,22 @@ class ResourceClient implements ResourceClientInterface
     }
 
     /**
-     * @throws WebserviceException|InvalidArgumentException
+     * @throws WebserviceException|InvalidArgumentException|ServerException
      */
     public function upsertResource(string $resource, array $data = [], array $options = []): void
     {
         try {
+            $options['filter']['reference'] = $data['reference'];
+            $options['limit'] = 1;
+
+            $existingEntity = $this->getResources($resource, $options)->current();
+            if ($existingEntity === null) {
+                throw new NotFoundException();
+            }
+
+            $data['id'] = $existingEntity['id'];
             $this->updateResource($resource, $data, $options);
         } catch (NotFoundException) {
-            unset($data['id']);
-
             $this->createResource($resource, $data, $options);
         } catch (WebserviceException $e) {
             throw new WebserviceException($e->getMessage(), $e->getCode());
