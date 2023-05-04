@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Component\Prestashop\ApiClient\Api;
 
 use Kiboko\Component\Prestashop\ApiClient\Client\ResourceClientInterface;
+use Kiboko\Component\Prestashop\ApiClient\Cursor;
 
 final class CombinationsApi implements CombinationsApiInterface
 {
@@ -33,8 +34,8 @@ final class CombinationsApi implements CombinationsApiInterface
         $this->resourceClient->upsertResource('combinations', $data, $options);
     }
 
-    public function all(array $options = []): \Generator
+    public function all(array $options = []): \Traversable
     {
-        return $this->resourceClient->getResources('combinations', $options);
+        return new Cursor($this->resourceClient, 'combinations', options: $options);
     }
 }

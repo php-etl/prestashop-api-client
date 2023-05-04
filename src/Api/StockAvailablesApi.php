@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Component\Prestashop\ApiClient\Api;
 
 use Kiboko\Component\Prestashop\ApiClient\Client\ResourceClientInterface;
+use Kiboko\Component\Prestashop\ApiClient\Cursor;
 
 final class StockAvailablesApi implements StockAvailablesApiInterface
 {
@@ -28,8 +29,8 @@ final class StockAvailablesApi implements StockAvailablesApiInterface
         $this->resourceClient->upsertResource('stock_availables', $data, $options);
     }
 
-    public function all(array $options = []): \Generator
+    public function all(array $options = []): \Traversable
     {
-        return $this->resourceClient->getResources('stock_availables', $options);
+        return new Cursor($this->resourceClient, 'stock_availables', options: $options);
     }
 }

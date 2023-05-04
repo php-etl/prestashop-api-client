@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Component\Prestashop\ApiClient\Api;
 
 use Kiboko\Component\Prestashop\ApiClient\Client\ResourceClientInterface;
+use Kiboko\Component\Prestashop\ApiClient\Cursor;
 
 final class TaxRuleGroupsApi implements TaxRuleGroupsApiInterface
 {
@@ -33,8 +34,8 @@ final class TaxRuleGroupsApi implements TaxRuleGroupsApiInterface
         $this->resourceClient->upsertResource('tax_rule_groups', $data, $options);
     }
 
-    public function all(array $options = []): \Generator
+    public function all(array $options = []): \Traversable
     {
-        return $this->resourceClient->getResources('tax_rule_groups', $options);
+        return new Cursor($this->resourceClient, 'tax_rule_groups', options: $options);
     }
 }

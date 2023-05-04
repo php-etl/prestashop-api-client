@@ -6,7 +6,7 @@
     "require": {
         "php": "^8.2",
         "symfony/serializer": "^6.2",
-        "prestashop/prestashop-webservice-lib": "dev-master"
+        "prestashop/prestashop-webservice-lib": "dev-feature/better-error-handling"
     },
     "authors": [
         {
@@ -27,6 +27,12 @@
     "extra": {
         "branch-alias": {
             "dev-main": "0.1.x-dev"
+        }
+    },
+    "repositories": {
+        "php-etl/prestashop-plugin": {
+            "url": "https://github.com/php-etl/prestashop-webservice-lib",
+            "type": "vcs"
         }
     }
 }

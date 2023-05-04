@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d4cb730f392ae87178b197b70c8ea35",
+    "content-hash": "6649c7d579c2b9b74b1d4a0773b2ef2e",
     "packages": [
         {
             "name": "prestashop/prestashop-webservice-lib",
-            "version": "dev-master",
+            "version": "dev-feature/better-error-handling",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PrestaShop/PrestaShop-webservice-lib.git",
-                "reference": "94feb5f547b4a33cd9c759edfa581f30fa42803b"
+                "url": "https://github.com/php-etl/prestashop-webservice-lib.git",
+                "reference": "4b67c657704cc48dc65370fff28fa2703538b55e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PrestaShop/PrestaShop-webservice-lib/zipball/94feb5f547b4a33cd9c759edfa581f30fa42803b",
-                "reference": "94feb5f547b4a33cd9c759edfa581f30fa42803b",
+                "url": "https://api.github.com/repos/php-etl/prestashop-webservice-lib/zipball/4b67c657704cc48dc65370fff28fa2703538b55e",
+                "reference": "4b67c657704cc48dc65370fff28fa2703538b55e",
                 "shasum": ""
             },
             "require": {
@@ -26,14 +26,12 @@
                 "ext-simplexml": "*",
                 "php": ">= 5.3.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "classmap": [
                     "PSWebServiceLibrary.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "OSL-3.0"
             ],
@@ -45,10 +43,9 @@
             ],
             "description": "PrestaShop Webservice access library",
             "support": {
-                "issues": "https://github.com/PrestaShop/PrestaShop-webservice-lib/issues",
-                "source": "https://github.com/PrestaShop/PrestaShop-webservice-lib/tree/master"
+                "source": "https://github.com/php-etl/prestashop-webservice-lib/tree/feature/better-error-handling"
             },
-            "time": "2023-03-31T09:12:52+00:00"
+            "time": "2023-05-03T07:44:21+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -134,16 +131,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v6.2.8",
+            "version": "v6.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "db9d36470bf0990990fda9320b8b001bb582f075"
+                "reference": "0732edf0ad28dd3faacde4f1200ab9d7a4d5f40d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/db9d36470bf0990990fda9320b8b001bb582f075",
-                "reference": "db9d36470bf0990990fda9320b8b001bb582f075",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/0732edf0ad28dd3faacde4f1200ab9d7a4d5f40d",
+                "reference": "0732edf0ad28dd3faacde4f1200ab9d7a4d5f40d",
                 "shasum": ""
             },
             "require": {
@@ -215,7 +212,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/v6.2.8"
+                "source": "https://github.com/symfony/serializer/tree/v6.2.10"
             },
             "funding": [
                 {
@@ -231,7 +228,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-31T09:14:44+00:00"
+            "time": "2023-04-18T13:57:49+00:00"
         }
     ],
     "packages-dev": [],

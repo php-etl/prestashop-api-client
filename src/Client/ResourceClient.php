@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\Prestashop\ApiClient\Client;
 
+use Kiboko\Component\Prestashop\ApiClient\Exception\InvalidArgumentException;
+use Kiboko\Component\Prestashop\ApiClient\Exception\NotFoundException;
+use Kiboko\Component\Prestashop\ApiClient\Exception\ServerException;
+use Kiboko\Component\Prestashop\ApiClient\Exception\WebserviceException;
 use Symfony\Component\Serializer\Serializer;
 
 class ResourceClient implements ResourceClientInterface
@@ -13,21 +17,31 @@ class ResourceClient implements ResourceClientInterface
         private readonly Serializer $serializer,
     ) {}
 
-    public function getResources(string $resource, array $options = []): \Generator
+    /**
+     * @throws ServerException|WebserviceException
+     */
+    public function getResources(string $resource, array $options = []): \Iterator
     {
         $options['resource'] = $resource;
         $options['display'] = $options['display'] ?? 'full';
+        $options['date'] = '1';
 
-        $results = $this->xmlToArray(
-            $this->client->get($options)->asXML()
-        );
+        try {
+            $results = $this->xmlToArray($this->client->get($options)->asXML());
+        } catch (\PrestaShopWebserviceServerException $e) {
+            throw new ServerException('Error coming from the server: '.$e->getMessage(), $e->getCode());
+        } catch (\PrestaShopWebserviceClientException $e) {
+            throw new WebserviceException('Error coming from the Webservice: '.$e->getMessage(), $e->getCode());
+        } catch (\PrestaShopWebserviceException $e) {
+            throw new WebserviceException($e->getMessage(), $e->getCode());
+        }
 
         if (!array_key_exists($resource, $results)) {
-            throw new \Exception('Prestashop response is formatted in an unexpected way.');
+            throw new ServerException('Prestashop response is formatted in an unexpected way :'.json_encode($results));
         }
 
         if (!is_array($results[$resource])) { // no results
-            return [];
+            return;
         }
 
         // {"prestashop: {"products": { "product": {"id", "name"...}}}}
@@ -43,6 +57,9 @@ class ResourceClient implements ResourceClientInterface
         }
     }
 
+    /**
+     * @throws WebserviceException
+     */
     public function getResource(string $resource, $id = null, array $options = []): array
     {
         $options['resource'] = $resource;
@@ -51,41 +68,63 @@ class ResourceClient implements ResourceClientInterface
             $options['id'] = (int)$id;
         }
 
-        return $this->xmlToArray(
-            $this->client->get($options)->asXML()
-        );
+        try {
+            return $this->xmlToArray($this->client->get($options)->asXML());
+        } catch (\PrestaShopWebserviceException $e) {
+            throw new WebserviceException($e->getMessage(), $e->getCode());
+        }
     }
 
+    /**
+     * @throws WebserviceException
+     */
     public function createResource(string $resource, array $data = [], array $options = []): void
     {
         $options['resource'] = $resource;
-        $options['postXml'] = $this->arrayToXml($data);
+        $options['postXml'] = $this->arrayToXml([$resource => $data]);
 
-        $this->client->add($options);
+        try {
+            $this->client->add($options);
+        } catch (\PrestaShopWebserviceException $e) {
+            throw new WebserviceException($e->getMessage(), $e->getCode());
+        }
     }
 
+    /**
+     * @throws InvalidArgumentException|NotFoundException|WebserviceException
+     */
     public function updateResource(string $resource, array $data = [], array $options = []): void
     {
-        $payload = reset($data);
-        if (!is_array($payload) || !array_key_exists('id', $payload)) {
-            throw new \Exception('No "id" found in the payload. Make sure the line is correctly formatted, with the resource\'s name at the top level. It should look like ["product" => ["id" => "123", ... ]] in case of a product creation.');
+        if (!is_array($data) || !array_key_exists('id', $data)) {
+            throw new InvalidArgumentException('Attempting to update, but no id was found in the payload.');
         }
 
         $options['resource'] = $resource;
-        $options['putXml'] = $this->arrayToXml($data);
-        $options['id'] = (int)$payload['id'];
+        $options['id'] = (int)$data['id'];
+        $options['putXml'] = $this->arrayToXml([$resource => $data]);
 
-        $this->client->edit($options);
+        try {
+            $this->client->edit($options);
+        } catch (\PrestaShopWebserviceNotFoundException) {
+            throw new NotFoundException(sprintf('No %s found with id "%d"', $resource, $options['id']));
+        } catch (\PrestaShopWebserviceException $e) {
+            throw new WebserviceException($e->getMessage(), $e->getCode());
+        }
     }
 
+    /**
+     * @throws WebserviceException|InvalidArgumentException
+     */
     public function upsertResource(string $resource, array $data = [], array $options = []): void
     {
         try {
             $this->updateResource($resource, $data, $options);
-        } catch (\PrestaShopWebserviceNotFoundException) {
-            unset($data[key($data)]['id']);
+        } catch (NotFoundException) {
+            unset($data['id']);
 
             $this->createResource($resource, $data, $options);
+        } catch (WebserviceException $e) {
+            throw new WebserviceException($e->getMessage(), $e->getCode());
         }
     }
 

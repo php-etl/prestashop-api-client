@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Component\Prestashop\ApiClient\Api;
 
 use Kiboko\Component\Prestashop\ApiClient\Client\ResourceClientInterface;
+use Kiboko\Component\Prestashop\ApiClient\Cursor;
 
 final class ProductFeatureValuesApi implements ProductFeatureValuesApiInterface
 {
@@ -33,8 +34,8 @@ final class ProductFeatureValuesApi implements ProductFeatureValuesApiInterface
         $this->resourceClient->upsertResource('product_feature_values', $data, $options);
     }
 
-    public function all(array $options = []): \Generator
+    public function all(array $options = []): \Traversable
     {
-        return $this->resourceClient->getResources('product_feature_values', $options);
+        return new Cursor($this->resourceClient, 'product_feature_values', options: $options);
     }
 }
