@@ -19,19 +19,19 @@ final class ProductsApi implements ProductsApiInterface
         return $this->resourceClient->getResource('products', $code, $options);
     }
 
-    public function create(array $data = [], array $options = []): void
+    public function create(array $data = [], array $options = []): array
     {
-        $this->resourceClient->createResource('products', $data, $options);
+        return $this->resourceClient->createResource('products', $data, $options);
     }
 
-    public function update(array $data = [], array $options = []): void
+    public function update(array $data = [], array $options = []): array
     {
-        $this->resourceClient->updateResource('products', $data, $options);
+        return $this->resourceClient->updateResource('products', $data, $options);
     }
 
-    public function upsert(array $data = [], array $options = []): void
+    public function upsert(array $data = [], array $options = []): array
     {
-        $this->resourceClient->upsertResource('products', $data, $options);
+        return $this->resourceClient->upsertResource('products', $data, $options, 'reference');
     }
 
     public function all(array $options = []): \Traversable

@@ -19,19 +19,19 @@ final class CombinationsApi implements CombinationsApiInterface
         return $this->resourceClient->getResource('combinations', $code, $options);
     }
 
-    public function create(array $data = [], array $options = []): void
+    public function create(array $data = [], array $options = []): array
     {
-        $this->resourceClient->createResource('combinations', $data, $options);
+        return $this->resourceClient->createResource('combinations', $data, $options);
     }
 
-    public function update(array $data = [], array $options = []): void
+    public function update(array $data = [], array $options = []): array
     {
-        $this->resourceClient->updateResource('combinations', $data, $options);
+        return $this->resourceClient->updateResource('combinations', $data, $options);
     }
 
-    public function upsert(array $data = [], array $options = []): void
+    public function upsert(array $data = [], array $options = []): array
     {
-        $this->resourceClient->upsertResource('combinations', $data, $options);
+        return $this->resourceClient->upsertResource('combinations', $data, $options);
     }
 
     public function all(array $options = []): \Traversable

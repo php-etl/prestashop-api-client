@@ -19,19 +19,19 @@ final class ProductFeatureValuesApi implements ProductFeatureValuesApiInterface
         return $this->resourceClient->getResource('product_feature_values', $code, $options);
     }
 
-    public function create(array $data = [], array $options = []): void
+    public function create(array $data = [], array $options = []): array
     {
-        $this->resourceClient->createResource('product_feature_values', $data, $options);
+        return $this->resourceClient->createResource('product_feature_values', $data, $options);
     }
 
-    public function update(array $data = [], array $options = []): void
+    public function update(array $data = [], array $options = []): array
     {
-        $this->resourceClient->updateResource('product_feature_values', $data, $options);
+        return $this->resourceClient->updateResource('product_feature_values', $data, $options);
     }
 
-    public function upsert(array $data = [], array $options = []): void
+    public function upsert(array $data = [], array $options = []): array
     {
-        $this->resourceClient->upsertResource('product_feature_values', $data, $options);
+        return $this->resourceClient->upsertResource('product_feature_values', $data, $options);
     }
 
     public function all(array $options = []): \Traversable

@@ -19,19 +19,19 @@ final class SuppliersApi implements SuppliersApiInterface
         return $this->resourceClient->getResource('suppliers', $code, $options);
     }
 
-    public function create(array $data = [], array $options = []): void
+    public function create(array $data = [], array $options = []): array
     {
-        $this->resourceClient->createResource('suppliers', $data, $options);
+        return $this->resourceClient->createResource('suppliers', $data, $options);
     }
 
-    public function update(array $data = [], array $options = []): void
+    public function update(array $data = [], array $options = []): array
     {
-        $this->resourceClient->updateResource('suppliers', $data, $options);
+        return $this->resourceClient->updateResource('suppliers', $data, $options);
     }
 
-    public function upsert(array $data = [], array $options = []): void
+    public function upsert(array $data = [], array $options = []): array
     {
-        $this->resourceClient->upsertResource('suppliers', $data, $options);
+        return $this->resourceClient->upsertResource('suppliers', $data, $options);
     }
 
     public function all(array $options = []): \Traversable

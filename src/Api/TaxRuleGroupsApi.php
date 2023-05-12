@@ -19,19 +19,19 @@ final class TaxRuleGroupsApi implements TaxRuleGroupsApiInterface
         return $this->resourceClient->getResource('tax_rule_groups', $code, $options);
     }
 
-    public function create(array $data = [], array $options = []): void
+    public function create(array $data = [], array $options = []): array
     {
-        $this->resourceClient->createResource('tax_rule_groups', $data, $options);
+        return $this->resourceClient->createResource('tax_rule_groups', $data, $options);
     }
 
-    public function update(array $data = [], array $options = []): void
+    public function update(array $data = [], array $options = []): array
     {
-        $this->resourceClient->updateResource('tax_rule_groups', $data, $options);
+        return $this->resourceClient->updateResource('tax_rule_groups', $data, $options);
     }
 
-    public function upsert(array $data = [], array $options = []): void
+    public function upsert(array $data = [], array $options = []): array
     {
-        $this->resourceClient->upsertResource('tax_rule_groups', $data, $options);
+        return $this->resourceClient->upsertResource('tax_rule_groups', $data, $options);
     }
 
     public function all(array $options = []): \Traversable

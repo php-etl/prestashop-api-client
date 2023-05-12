@@ -19,19 +19,19 @@ final class CategoriesApi implements CategoriesApiInterface
         return $this->resourceClient->getResource('categories', $code, $options);
     }
 
-    public function create(array $data = [], array $options = []): void
+    public function create(array $data = [], array $options = []): array
     {
-        $this->resourceClient->createResource('categories', $data, $options);
+        return $this->resourceClient->createResource('categories', $data, $options);
     }
 
-    public function update(array $data = [], array $options = []): void
+    public function update(array $data = [], array $options = []): array
     {
-        $this->resourceClient->updateResource('categories', $data, $options);
+        return $this->resourceClient->updateResource('categories', $data, $options);
     }
 
-    public function upsert(array $data = [], array $options = []): void
+    public function upsert(array $data = [], array $options = []): array
     {
-        $this->resourceClient->upsertResource('categories', $data, $options);
+        return $this->resourceClient->upsertResource('categories', $data, $options);
     }
 
     public function all(array $options = []): \Traversable

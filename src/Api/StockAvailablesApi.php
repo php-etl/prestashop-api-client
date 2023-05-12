@@ -19,14 +19,14 @@ final class StockAvailablesApi implements StockAvailablesApiInterface
         return $this->resourceClient->getResource('stock_availables', $code, $options);
     }
 
-    public function update(array $data = [], array $options = []): void
+    public function update(array $data = [], array $options = []): array
     {
-        $this->resourceClient->updateResource('stock_availables', $data, $options);
+        return $this->resourceClient->updateResource('stock_availables', $data, $options);
     }
 
-    public function upsert(array $data = [], array $options = []): void
+    public function upsert(array $data = [], array $options = []): array
     {
-        $this->resourceClient->upsertResource('stock_availables', $data, $options);
+        return $this->resourceClient->upsertResource('stock_availables', $data, $options);
     }
 
     public function all(array $options = []): \Traversable
