@@ -9,6 +9,7 @@ use Kiboko\Component\Prestashop\ApiClient\Exception\BadRequestException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\ClientException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\ForbiddenException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\InvalidArgumentException;
+use Kiboko\Component\Prestashop\ApiClient\Exception\MaybeForbiddenException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\MethodNotAllowedException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\NoContentException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\NotFoundException;
@@ -39,6 +40,7 @@ class ResourceClient implements ResourceClientInterface
      * @throws TooManyRequestsException
      * @throws UnauthorizedException
      * @throws WebserviceException
+     * @throws MaybeForbiddenException
      */
     public function getResources(string $resource, array $options = []): \Iterator
     {
@@ -48,6 +50,8 @@ class ResourceClient implements ResourceClientInterface
 
         try {
             $results = $this->xmlToArray($this->client->get($options)->asXML());
+        } catch (\PrestaShopWebserviceMissingPreconditionException $e) {
+            throw new MaybeForbiddenException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceServerException $e) {
             throw new ServerException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceClientException $e) {
@@ -108,6 +112,7 @@ class ResourceClient implements ResourceClientInterface
      * @throws TooManyRequestsException
      * @throws UnauthorizedException
      * @throws WebserviceException
+     * @throws MaybeForbiddenException
      */
     public function getResource(string $resource, $id = null, array $options = []): array
     {
@@ -119,6 +124,8 @@ class ResourceClient implements ResourceClientInterface
 
         try {
             return $this->xmlToArray($this->client->get($options)->asXML());
+        } catch (\PrestaShopWebserviceMissingPreconditionException $e) {
+            throw new MaybeForbiddenException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceServerException $e) {
             throw new ServerException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceClientException $e) {
@@ -159,6 +166,7 @@ class ResourceClient implements ResourceClientInterface
      * @throws TooManyRequestsException
      * @throws UnauthorizedException
      * @throws WebserviceException
+     * @throws MaybeForbiddenException
      */
     public function createResource(string $resource, array $data = [], array $options = []): array
     {
@@ -167,6 +175,8 @@ class ResourceClient implements ResourceClientInterface
 
         try {
             return $this->xmlToArray($this->client->add($options)->asXML());
+        } catch (\PrestaShopWebserviceMissingPreconditionException $e) {
+            throw new MaybeForbiddenException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceServerException $e) {
             throw new ServerException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceClientException $e) {
@@ -208,6 +218,7 @@ class ResourceClient implements ResourceClientInterface
      * @throws UnauthorizedException
      * @throws WebserviceException
      * @throws InvalidArgumentException
+     * @throws MaybeForbiddenException
      */
     public function updateResource(string $resource, array $data = [], array $options = []): array
     {
@@ -221,6 +232,8 @@ class ResourceClient implements ResourceClientInterface
 
         try {
             return $this->xmlToArray($this->client->edit($options)->asXML());
+        } catch (\PrestaShopWebserviceMissingPreconditionException $e) {
+            throw new MaybeForbiddenException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceServerException $e) {
             throw new ServerException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceClientException $e) {
@@ -262,6 +275,7 @@ class ResourceClient implements ResourceClientInterface
      * @throws UnauthorizedException
      * @throws WebserviceException
      * @throws InvalidArgumentException
+     * @throws MaybeForbiddenException
      */
     public function upsertResource(string $resource, array $data = [], array $options = [], string $identifier = 'id'): array
     {
