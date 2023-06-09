@@ -24,6 +24,7 @@ final class ClientFactory
             new Api\ManufacturersApi($resourceClient),
             new Api\ProductFeaturesApi($resourceClient),
             new Api\ProductFeatureValuesApi($resourceClient),
+            new Api\ProductImagesApi($resourceClient),
             new Api\ProductOptionsApi($resourceClient),
             new Api\ProductOptionValuesApi($resourceClient),
             new Api\ProductsApi($resourceClient),

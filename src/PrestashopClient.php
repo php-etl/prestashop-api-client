@@ -12,6 +12,7 @@ final class PrestashopClient
         private Api\ManufacturersApiInterface $manufacturersApi,
         private Api\ProductFeaturesApiInterface $productFeaturesApi,
         private Api\ProductFeatureValuesApiInterface $productFeatureValuesApi,
+        private Api\ProductImagesApiInterface $productImagesApi,
         private Api\ProductOptionsApiInterface $productOptionsApi,
         private Api\ProductOptionValuesApiInterface $productOptionValuesApi,
         private Api\ProductsApiInterface $productsApi,
@@ -41,6 +42,10 @@ final class PrestashopClient
     public function getProduct_feature_valuesApi(): Api\ProductFeatureValuesApiInterface
     {
         return $this->productFeatureValuesApi;
+    }
+    public function getProduct_imagesApi(): Api\ProductImagesApiInterface
+    {
+        return $this->productImagesApi;
     }
     public function getProduct_optionsApi(): Api\ProductOptionsApiInterface
     {

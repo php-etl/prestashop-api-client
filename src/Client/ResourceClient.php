@@ -297,6 +297,15 @@ class ResourceClient implements ResourceClientInterface
         }
     }
 
+    public function uploadResource(string $resource, array $data = [], array $options = []): void
+    {
+        $options['resource'] = $resource;
+        $options['id'] = (int)$data['id'];
+        $options['image'] = $data['image'];
+
+        $this->client->upload($options);
+    }
+
     private function xmlToArray(string $xml): array
     {
         return $this->serializer->decode($xml, 'xml');
