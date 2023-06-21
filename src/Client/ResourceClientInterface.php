@@ -8,6 +8,6 @@ interface ResourceClientInterface
     public function getResource(string $resource, int $id = null, array $options = []): array;
     public function createResource(string $resource, array $data = [], array $options = []): array;
     public function updateResource(string $resource, array $data = [], array $options = []): array;
-    public function upsertResource(string $resource, array $data = [], array $options = [], string $identifier = 'id'): array;
+    public function upsertResource(string $resource, array $data = [], array $options = [], string $identifierPath = '[id]', string $filterPath = '[id]'): array;
     public function uploadResource(string $resource, array $data = [], array $options = []): void;
 }

@@ -31,7 +31,7 @@ final class CombinationsApi implements CombinationsApiInterface
 
     public function upsert(array $data = [], array $options = []): array
     {
-        return $this->resourceClient->upsertResource('combinations', $data, $options, 'reference');
+        return $this->resourceClient->upsertResource('combinations', $data, $options, '[reference]', '[reference]');
     }
 
     public function all(array $options = []): \Traversable

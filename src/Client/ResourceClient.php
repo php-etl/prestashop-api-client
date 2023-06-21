@@ -19,6 +19,7 @@ use Kiboko\Component\Prestashop\ApiClient\Exception\TooManyRequestsException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\UnauthorizedException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\WebserviceException;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class ResourceClient implements ResourceClientInterface
 {
@@ -277,14 +278,24 @@ class ResourceClient implements ResourceClientInterface
      * @throws InvalidArgumentException
      * @throws MaybeForbiddenException
      */
-    public function upsertResource(string $resource, array $data = [], array $options = [], string $identifier = 'id'): array
+    public function upsertResource(string $resource, array $data = [], array $options = [], string $identifierPath = '[id]', string $filterPath = '[id]'): array
     {
         try {
-            $options['filter'][$identifier] = $data[$identifier];
+            $propertyAccessor = PropertyAccess::createPropertyAccessor();
+            $identifierValue = $propertyAccessor->getValue($data, $identifierPath);
+            if (null === $identifierValue) {
+                throw new BadRequestException(sprintf(
+                    'Attempted to upsert on entity "%s". The payload should have a unique discriminator under %s, but no value could be found.',
+                    $resource,
+                    $identifierPath
+                ));
+            }
+            $options['filter'] = [];
+            $propertyAccessor->setValue($options['filter'], $filterPath, $identifierValue);
             $options['limit'] = 1;
 
             $existingEntity = $this->getResources($resource, $options)->current();
-            if ($existingEntity === null) {
+            if (null === $existingEntity) {
                 throw new NotFoundException();
             }
 
@@ -302,7 +313,6 @@ class ResourceClient implements ResourceClientInterface
         $options['resource'] = $resource;
         $options['id'] = (int)$data['id'];
         $options['image'] = $data['image'];
-
         $this->client->upload($options);
     }
 
