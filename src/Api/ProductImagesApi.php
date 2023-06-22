@@ -13,8 +13,8 @@ final class ProductImagesApi implements ProductImagesApiInterface
     ) {
     }
 
-    public function upload(array $data = [], array $options = []): void
+    public function upload(array $data = [], array $options = []): array
     {
-        $this->resourceClient->uploadResource('images/products', $data, $options);
+        return $this->resourceClient->uploadResource('images/products', $data, $options);
     }
 }
