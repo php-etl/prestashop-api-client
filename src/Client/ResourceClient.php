@@ -278,22 +278,27 @@ class ResourceClient implements ResourceClientInterface
      * @throws InvalidArgumentException
      * @throws MaybeForbiddenException
      */
-    public function upsertResource(string $resource, array $data = [], array $options = [], string $identifierPath = '[id]', string $filterPath = '[id]'): array
+    public function upsertResource(string $resource, array $data = [], array $options = [], array $identifierPaths = ['[id]' => '[id]']): array
     {
-        try {
-            $propertyAccessor = PropertyAccess::createPropertyAccessor();
-            $identifierValue = $propertyAccessor->getValue($data, $identifierPath);
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+
+        $options['limit'] = 1;
+        $options['filter'] = [];
+
+        foreach ($identifierPaths as $pathInPayload => $pathInPrestashop) {
+            $identifierValue = $propertyAccessor->getValue($data, $pathInPayload);
             if (null === $identifierValue) {
                 throw new BadRequestException(sprintf(
                     'Attempted to upsert on entity "%s". The payload should have a unique discriminator under %s, but no value could be found.',
                     $resource,
-                    $identifierPath
+                    $pathInPayload
                 ));
             }
-            $options['filter'] = [];
-            $propertyAccessor->setValue($options['filter'], $filterPath, $identifierValue);
-            $options['limit'] = 1;
 
+            $propertyAccessor->setValue($options['filter'], $pathInPrestashop, $identifierValue);
+        }
+
+        try {
             $existingEntity = $this->getResources($resource, $options)->current();
             if (null === $existingEntity) {
                 throw new NotFoundException();

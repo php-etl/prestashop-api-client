@@ -31,7 +31,10 @@ final class ProductFeatureValuesApi implements ProductFeatureValuesApiInterface
 
     public function upsert(array $data = [], array $options = []): array
     {
-        return $this->resourceClient->upsertResource('product_feature_values', $data, $options, '[value][language][0][#]', '[value][language]');
+        return $this->resourceClient->upsertResource('product_feature_values', $data, $options, [
+            '[value][language][0][#]' => '[value][language]',
+            '[id_feature]' => '[id_feature]'
+        ]);
     }
 
     public function all(array $options = []): \Traversable

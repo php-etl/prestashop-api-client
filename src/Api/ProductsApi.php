@@ -31,7 +31,7 @@ final class ProductsApi implements ProductsApiInterface
 
     public function upsert(array $data = [], array $options = []): array
     {
-        return $this->resourceClient->upsertResource('products', $data, $options, '[reference]', '[reference]');
+        return $this->resourceClient->upsertResource('products', $data, $options, ['[reference]' => '[reference]']);
     }
 
     public function all(array $options = []): \Traversable
