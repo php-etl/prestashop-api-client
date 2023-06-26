@@ -3,8 +3,9 @@
 namespace Kiboko\Component\Prestashop\ApiClient\Api;
 
 use Kiboko\Component\Prestashop\ApiClient\Api\Operation\GettableResourceInterface;
+use Kiboko\Component\Prestashop\ApiClient\Api\Operation\ListableResourceInterface;
 use Kiboko\Component\Prestashop\ApiClient\Api\Operation\UploadableResourceInterface;
 
-interface ProductImagesApiInterface extends UploadableResourceInterface, GettableResourceInterface
+interface ProductImagesApiInterface extends UploadableResourceInterface, GettableResourceInterface, ListableResourceInterface
 {
 }
