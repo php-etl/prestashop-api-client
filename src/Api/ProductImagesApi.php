@@ -26,6 +26,6 @@ final class ProductImagesApi implements ProductImagesApiInterface
 
     public function all(array $options = []): \Traversable
     {
-        return new Cursor($this->resourceClient, 'images/products', options: $options);
+        return new Cursor($this->resourceClient, 'images/products', options: $options, resourceName: 'images');
     }
 }

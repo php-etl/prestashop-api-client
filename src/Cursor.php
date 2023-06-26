@@ -16,15 +16,20 @@ final class Cursor implements \Iterator
         private readonly string $resource,
         private readonly int $pageSize = 10,
         private readonly array $options = [],
+        private readonly string|null $resourceName = null,
     ) {
         $this->currentPage = new \EmptyIterator();
     }
 
     private function fetchNextPage(): void
     {
-        $this->currentPage = $this->client->getResources($this->resource, $this->options + [
-            'limit' => $this->offset.','.$this->pageSize,
-        ]);
+        $this->currentPage = $this->client->getResources(
+            $this->resource,
+            $this->options + [
+                'limit' => $this->offset.','.$this->pageSize,
+            ],
+            $this->resourceName,
+        );
 
         $this->offset += $this->pageSize;
     }

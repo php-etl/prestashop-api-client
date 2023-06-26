@@ -43,7 +43,7 @@ class ResourceClient implements ResourceClientInterface
      * @throws WebserviceException
      * @throws MaybeForbiddenException
      */
-    public function getResources(string $resource, array $options = []): \Iterator
+    public function getResources(string $resource, array $options = [], string|null $resourceName = null): \Iterator
     {
         $options['resource'] = $resource;
         $options['display'] = $options['display'] ?? 'full';
@@ -77,6 +77,10 @@ class ResourceClient implements ResourceClientInterface
             throw new BadParametersException($e->getMessage(), $e->getCode(), $e->getPrevious());
         } catch (\PrestaShopWebserviceException $e) {
             throw new WebserviceException($e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
+
+        if ($resourceName) {
+            $resource = $resourceName;
         }
 
         if (!array_key_exists($resource, $results)) {
