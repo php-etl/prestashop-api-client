@@ -6,7 +6,7 @@
     "require": {
         "php": "^8.2",
         "symfony/serializer": "^6.2",
-        "prestashop/prestashop-webservice-lib": "dev-feature/better-error-handling",
+        "prestashop/prestashop-webservice-lib": "dev-feature/image-upload",
         "symfony/property-access": "^6.3"
     },
     "authors": [
