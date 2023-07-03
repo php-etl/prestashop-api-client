@@ -322,7 +322,7 @@ class ResourceClient implements ResourceClientInterface
         $options['resource'] = $resource;
         $options['id'] = (int)$data['id'];
         $options['image'] = $data['image'];
-        return $this->xmlToArray($this->client->upload($options)->asXML());
+        return $this->client->upload($options);
     }
 
     private function xmlToArray(string $xml): array
