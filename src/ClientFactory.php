@@ -31,6 +31,7 @@ final class ClientFactory
             new Api\ShopsApi($resourceClient),
             new Api\StockAvailablesApi($resourceClient),
             new Api\SuppliersApi($resourceClient),
+            new Api\TagsApi($resourceClient),
             new Api\TaxRuleGroupsApi($resourceClient),
             new Api\TaxRulesApi($resourceClient),
         );

@@ -19,6 +19,7 @@ final class PrestashopClient
         private Api\ShopsApiInterface $shopsApi,
         private Api\StockAvailablesApiInterface $stockAvailablesApi,
         private Api\SuppliersApiInterface $suppliersApi,
+        private Api\TagsApiInterface $tagsApi,
         private Api\TaxRuleGroupsApiInterface $taxRuleGroupsApi,
         private Api\TaxRulesApiInterface $taxRulesApi,
     ) {}
@@ -70,6 +71,10 @@ final class PrestashopClient
     public function getSuppliersApi(): Api\SuppliersApiInterface
     {
         return $this->suppliersApi;
+    }
+    public function getTagsApi(): Api\TagsApiInterface
+    {
+        return $this->tagsApi;
     }
     public function getTax_rule_groupsApi(): Api\TaxRuleGroupsApiInterface
     {
