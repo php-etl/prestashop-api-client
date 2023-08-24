@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/prestashop-webservice-lib.git",
-                "reference": "b9a226617057fb3f05cff91d04c8e508a44dc1dd"
+                "reference": "f3330ad9f56a4b18d0ec5fab84a497b564744e33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/prestashop-webservice-lib/zipball/b9a226617057fb3f05cff91d04c8e508a44dc1dd",
-                "reference": "b9a226617057fb3f05cff91d04c8e508a44dc1dd",
+                "url": "https://api.github.com/repos/php-etl/prestashop-webservice-lib/zipball/f3330ad9f56a4b18d0ec5fab84a497b564744e33",
+                "reference": "f3330ad9f56a4b18d0ec5fab84a497b564744e33",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,7 @@
             "support": {
                 "source": "https://github.com/php-etl/prestashop-webservice-lib/tree/feature/image-upload"
             },
-            "time": "2023-07-03T07:50:24+00:00"
+            "time": "2023-07-03T09:32:06+00:00"
         },
         {
             "name": "psr/container",

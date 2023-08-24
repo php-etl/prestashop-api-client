@@ -13,6 +13,7 @@ use Kiboko\Component\Prestashop\ApiClient\Exception\MaybeForbiddenException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\MethodNotAllowedException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\NoContentException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\NotFoundException;
+use Kiboko\Component\Prestashop\ApiClient\Exception\NoUniqueIdentifierInPayloadException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\ServerException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\StatusException;
 use Kiboko\Component\Prestashop\ApiClient\Exception\TooManyRequestsException;
@@ -289,20 +290,16 @@ class ResourceClient implements ResourceClientInterface
         $options['limit'] = 1;
         $options['filter'] = [];
 
-        foreach ($identifierPaths as $pathInPayload => $pathInPrestashop) {
-            $identifierValue = $propertyAccessor->getValue($data, $pathInPayload);
-            if (null === $identifierValue) {
-                throw new BadRequestException(sprintf(
-                    'Attempted to upsert on entity "%s". The payload should have a unique discriminator under %s, but no value could be found.',
-                    $resource,
-                    $pathInPayload
-                ));
+        try {
+            foreach ($identifierPaths as $pathInPayload => $pathInPrestashop) {
+                $identifierValue = $propertyAccessor->getValue($data, $pathInPayload);
+                if (null === $identifierValue) {
+                    throw new NoUniqueIdentifierInPayloadException($resource, $pathInPayload);
+                }
+
+                $propertyAccessor->setValue($options['filter'], $pathInPrestashop, $identifierValue);
             }
 
-            $propertyAccessor->setValue($options['filter'], $pathInPrestashop, $identifierValue);
-        }
-
-        try {
             $existingEntity = $this->getResources($resource, $options)->current();
             if (null === $existingEntity) {
                 throw new NotFoundException();
@@ -310,7 +307,8 @@ class ResourceClient implements ResourceClientInterface
 
             $data['id'] = $existingEntity['id'];
             return $this->updateResource($resource, $data, $options);
-        } catch (NotFoundException) {
+        } catch (NotFoundException|NoUniqueIdentifierInPayloadException) {
+            unset($data['id']);
             return $this->createResource($resource, $data, $options);
         } catch (WebserviceException $e) {
             throw new WebserviceException($e->getMessage(), $e->getCode());
